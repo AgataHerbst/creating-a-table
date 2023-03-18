@@ -14,49 +14,41 @@ function Tbody() {
     getUsers();
   }, [])
 
-  const [order, setOrder] = useState ('ASC');
-  const sorting = (index, type) => {
-    if(type) {
-      const sorted =[...users].sort ((a, b) =>
-      a[index] - b[index]
+
+  const [order, setOrder] = useState('ASC');
+  const sorting = (obj, key) => {
+    if (order === "ASC") {
+      const sorted = [...users].sort((a, b) =>
+        a[obj] > b[obj] ? 1 : -1
       );
-      setUsers(sorted);
+      setUsers(sorted)
+      setOrder('DSC')
     }
-  if (order === "ASC") {  //Восходящий
-      const sorted = [...users].sort((a,b)=>
-        a[index] > b[index] ? 1 : -1
-        
-        );
-        setUsers(sorted);
-        setOrder('DSC');//нисходящий
-      }
-     if(order === 'DSC') {
-      const sorted =[...users].sort ((a, b) =>
-      a[index] < b[index] ? 1 : -1
+    if (order === 'DSC') {
+      const sorted = [...users].sort((a, b) =>
+        a[obj] < b[obj] ? 1 : -1
       );
-      setUsers(sorted);
-      setOrder('ASC');
-    
+      setUsers(sorted)
+      setOrder('ASC')
     }
   }
-
   return <>
     <thead className={s.thead}>
       <tr>
-      <th>
-        <button onClick={() => sorting('name')}>
-          Name</button></th>
-      <th><button onClick={() => sorting('email')}>
-        Email</button></th>
-      <th><button onClick={() => sorting('Adress.city')}>
-        Address.city</button></th>
-      <th><button onClick={() => sorting('phone')}>
-        Phone</button></th>
-      <th><button onClick={() => sorting('website')}>
-        Website</button></th>
-      <th><button onClick={() => sorting('company.name')}>
-        Company.Name</button></th>
-        </tr>
+        <th>
+          <button onClick={() => sorting('name')}>
+            Name</button></th>
+        <th><button onClick={() => sorting('email')}>
+          Email</button></th>
+        <th><button onClick={() => sorting('address.city')}>
+          Address.city</button></th>
+        <th><button onClick={() => sorting('phone')}>
+          Phone</button></th>
+        <th><button onClick={() => sorting('website')}>
+          Website</button></th>
+        <th><button onClick={() => sorting('company.name')}>
+          Company.Name</button></th>
+      </tr>
     </thead>
 
     <tbody className={s.tbody}>
