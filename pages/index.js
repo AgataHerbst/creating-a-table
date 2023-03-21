@@ -9,8 +9,7 @@ function App() {
     <Header />
     <table className={s.app}>
     <ErrorBoundary
-     FallbackComponent={ErrorFallBack}
-     onReset={() => setUsers('')}>
+     FallbackComponent={ErrorFallBack}>
       <Tbody />
     </ErrorBoundary>
     </table>

@@ -4,19 +4,17 @@ import { useEffect, useState } from 'react';
 
 function Tbody() {
   const [users, setUsers] = useState([]);
-  // const [order, setOrder] = useState('asc'); // все useState подряд и вместе 
 
-    const getUsers = async () => {
-      const response = await fetch("https://jsonplaceholder.typicode.com/users");
-      const FinalData = await response.json();
-      setUsers(FinalData)
-    }
+  const getUsers = async () => { 
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const FinalData = await response.json();
+    setUsers(FinalData)
+  }
 
-    useEffect(() => { //извлечение данных, ручное изменение структуры DOM, использование таймеров, логгирование
-      getUsers();
-    }, []);
+  useEffect(() => {
+    getUsers();
+  }, [])
 
- 
   function sortByFn(fn){
   setUsers([...users].sort((a,b)=>fn(a).localeCompare(fn(b))))
 }
@@ -39,10 +37,11 @@ function Tbody() {
           Company.Name</button></th>
       </tr>
     </thead>
+
    <tbody className={s.tbody}>
 
-    {users.map((userElem) => {
-        return <tr key={userElem.id}>
+      {users.map((userElem) => { 
+       return <tr key={userElem.id}> 
             <td>{userElem.name}</td>
             <td>{userElem.email}</td>
             <td>{userElem.address.city}</td>
@@ -51,7 +50,7 @@ function Tbody() {
             <td>{userElem.company.name}</td>
           </tr>
         })
-      }
+       }
     </tbody>
   </>
 }
