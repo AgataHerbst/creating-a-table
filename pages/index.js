@@ -6,10 +6,10 @@ import {ErrorFallBack} from '../components/ErrorFallBack';
 function App() {
  return <>
     <Header />
-    <ErrorBoundary
-     FallbackComponent={ErrorFallBack}>
+    {/* <ErrorBoundary
+     FallbackComponent={ErrorFallBack}> */}
       <Tbody />
-    </ErrorBoundary>
+    {/* </ErrorBoundary> */}
     </>
 }
 
