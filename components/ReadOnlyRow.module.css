@@ -1,0 +1,16 @@
+.td {
+    border: 1px solid #51c71a;
+    text-align: left;
+    padding: 8px;
+    font-size: 17px;
+    background-color: rgb(235, 253, 205);
+  }
+  .edit{
+    background-color: rgb(250, 203, 117);
+    border: 2px solid #51c71a;
+  }
+  .delete{
+    background-color: rgb(250, 203, 117);
+    border: 2px solid #51c71a;
+  }
+ 
