@@ -9,7 +9,7 @@ function Tbody() {
   const [editContactId, setEditContactId] = useState(null); //id наших users, если изменить null на id, то редактирование высвитится у того user, id которого мы задали
   //const [addFormData, setAddFormData] = useState('')
 
-  function handleAddFormSubmit(event) {  //кнопка добавления контакта
+  function handleAddFormSubmit(event) {  //функция ДОБАВЛЕНИЯ контакта
   event.preventDefault();
  
    
@@ -27,7 +27,7 @@ const newContacts = [...users, newContact];
 setUsers(newContacts);
   }
 
-  function handleEditFormSubmit(obj) {
+  function handleEditFormSubmit(obj) { //функция РЕДАКТИРОВАНИЯ формы
 
     const newContacts = [...users];
 
@@ -57,6 +57,17 @@ setUsers(newContacts);
     newContacts.splice(index, 1);
 
     setUsers(newContacts);
+  }
+
+  function handleAddFormChange ({addFormData}) {
+    const 
+    [name, setName] = useState(addFormData.name),
+    [email, setEmail] = useState(addFormData.email),
+    [addressCity, setAddressCity] = useState(addFormData.address.city),
+    [website, setWebsite] = useState(addFormData.website),
+    [phone, setPhone] = useState(addFormData.phone),
+    [companyName, setCompanyName] = useState(addFormData.company.name);
+    
   }
 
   try {
@@ -107,6 +118,7 @@ setUsers(newContacts);
                 editFormData={user}
                 handleEditFormSubmit={handleEditFormSubmit}
                 handleCancelClick={handleCancelClick}
+                handleAddFormSubmit={handleAddFormSubmit}
                />
               : <ReadOnlyRow
                 key={user.id}
@@ -118,8 +130,8 @@ setUsers(newContacts);
 
           }
           <tr><td colSpan={8}><h2 className={s.h2}>Add a New Contact</h2></td></tr>
-          <EditableRow editFormData={{ name: '', email: '', address: { city: '' }, website: '', phone: '', company: { name: '' } }}
-          />
+          <EditableRow editFormData={{ name: '', email: '', address: { city: '' }, website: '', phone: '', company: { name: '' } }} />
+        
         </tbody>
       </table>
     </div>

@@ -19,7 +19,7 @@ function EditableRow({ editFormData, handleEditFormSubmit, handleCancelClick, ha
   <td>
     <button type='submit' onClick={_=>handleEditFormSubmit({name, email, address:{city:addressCity}, website, phone, company:{name:companyName}})}>Save</button>
     <button type='button' onClick={handleCancelClick}>Cancel</button>
-    <button type='button' onClick={handleAddFormSubmit}>Cancel</button>
+    <button type='submit' onClick={_=>handleAddFormSubmit({name, email, address:{city:addressCity}, website, phone, company:{name:companyName}})}>Add</button>
     </td>
     </tr>
      }
