@@ -17,5 +17,3 @@ function ReadOnlyRow ({user, handleEditClick, handleDeleteClick }) {
     </>
     }
     export default ReadOnlyRow;
-
-    //key={userElem.id}

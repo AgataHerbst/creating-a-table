@@ -1,5 +1,5 @@
 import s from './Tbody.module.css';
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState } from 'react';
 import {nanoid} from 'nanoid';
 import ReadOnlyRow from '../components/ReadOnlyRow';
 import EditableRow from '../components/EditableRow';
@@ -7,131 +7,80 @@ import EditableRow from '../components/EditableRow';
 function Tbody() {
   const [users, setUsers] = useState([]);
   const[ editContactId, setEditContactId ] = useState(null); //id наших users, если изменить null на id, то редактирование высвитится у того user, id которого мы задали
+ 
 
-  const[ addFormData, setAddFormData ] = useState({ //добавляем данные для формы инпут
-    name: '',
-    email: '',
-    address: '',
-    website: '',
-    phone: '',
-    companyName: ''
-  });
+  function handleAddFormSubmit(event) {  //кнопка добавления контакта
+  event.preventDefault();
 
-  const [ editFormData, setEditFormData ] = useState({ //редактирование формы
-    name: '',
-    email: '',
-    address: '',
-    website: '',
-    phone: '',
-    companyName: ''
-  });
+ /*const 
+  [name, setName] = useState(addFormData.name),
+  [email, setEmail] = useState(addFormData.email),
+  [addressCity, setAddressCity] = useState(addFormData.address.city),
+  [website, setWebsite] = useState(addFormData.website),
+  [phone, setPhone] = useState(addFormData.phone),
+  [companyName, setCompanyName] = useState(addFormData.company.name);*/
 
-
-
-  function handleAddFormChange (event) { // обработка изменения формы добавления
-    event.preventDefault();
-    
-    const fieldName = event.target.getAttribute('name');   //название поля
-    const fieldValue = event.target.value;                  //значение поля
-                 
-    const newFormData = {...addFormData};
-    newFormData[fieldName] = fieldValue;
-    
-    setAddFormData(newFormData);
-    };
-
-    function handleEditFormChange (event) {
-      event.preventDefault();
-    
-      const fieldName = event.target.getAttribute('name');
-      const fieldValue = event.target.value;
-    
-      const newFormData = {...setEditFormData};
-      newFormData[fieldName] = fieldValue;
-    
-      setEditFormData(newFormData);
-    };
-
-
-
-
-    function handleAddFormSubmit (event) {  //кнопка добавления контакта
-      event.preventDefault();
-      
-      const newContact = { //добавление нового контакта
+    const newContact = { //добавление нового контакта
       id: nanoid(),
-       name: addFormData.name,
-       email: addFormData.email,
-       address: addFormData.address.city,
-       phone: addFormData.phone,
-       website: addFormData.website,
-       companyName: addFormData.company.name
-      };
-      
-      const newContacts = [...users, newContact];
-      setUsers(newContacts);
-      };
+      name: addFormData.name,
+      email: addFormData.email,
+      address: addFormData.address.city,
+      phone: addFormData.phone,
+      website: addFormData.website,
+      companyName: addFormData.company.name
+    };
 
-      function handleEditFormSubmit (event) {
-        event.preventDefault();
-        
-        const editedContact = {
-          id: editContactId,
-          name: editFormData.name,
-          email: editFormData.email,
-          address: editFormData.address.city,
-          website: editFormData.website,
-          phone: editFormData.phone,
-          companyName: editFormData.company.name
-          }
-          const newContacts = [...users];
-        
-          const index = users.findIndex((user) => user.id === editContactId);
-        
-          newContacts[index] = editedContact;
-        
-          setUsers(newContacts);
-          setEditContactId(null)
-        }
+  const newContacts = [...users, newContact];
+  setUsers(newContacts);
 
-      function handleEditClick (event, user) {
-        event.preventDefault();
-        setEditContactId(user.id);
-        
-        const formValues = {
-          name: user.name,
-          email: user.email,
-          address: user.address.city,
-          website: user.website,
-          phone: user.phone,
-          companyName: user.company.name
-        }
-        setEditFormData(formValues);
-        }
-        
-        function handleCancelClick () { //кнопка cancel
-          setEditContactId(null);
-          };
-        
-        function handleDeleteClick (userId) {
-        const newContacts = [...users];
-        
-        const index = users.findIndex((user) => user.id === userId);
-        
-        newContacts.splice(index, 1);
-        
-        setUsers(newContacts);
-          }
-  
+    };
+
+   function handleEditFormSubmit(obj) {
+
+    const newContacts = [...users];
+
+    const index = users.findIndex((user) => user.id === editContactId);
+
+    newContacts[index] = Object.assign(newContacts[index],obj);
+
+    setUsers(newContacts);
+    setEditContactId(null);
+  }
+
+ 
+
+  function handleEditClick(event, user) { //функция редактировать, кнопка edit
+    setEditContactId(user.id);
+  }
+
+  function handleCancelClick() { // функция отмена, кнопка cancel
+    setEditContactId(null);
+  };
+
+  function handleDeleteClick(userId) {
+    const newContacts = [...users];
+
+    const index = users.findIndex((user) => user.id === userId);
+
+    newContacts.splice(index, 1);
+
+     setUsers(newContacts);
+  }
+
+  try {
   const getUsers = async () => { 
-    const response = await fetch("https://jsonplaceholder.typicode.com/users");
-    const FinalData = await response.json();
-    setUsers(FinalData)
+  const response = await fetch("https://jsonplaceholder.typicode.com/users");
+  const FinalData = await response.json();
+  setUsers(FinalData)
   }
 
   useEffect(() => {
-    getUsers();
+  getUsers();
   }, [])
+
+} catch (err){
+  console.log('Поймали ошибку.')
+}
 
   function sortByFn(fn){
   setUsers([...users].sort((a,b)=>fn(a).localeCompare(fn(b))))
@@ -139,8 +88,7 @@ function Tbody() {
 
   return <>
    <div className={s.container}>  
-   <form onSubmit={handleEditFormSubmit}>
-     <table className={s.table}>
+   <table className={s.table}>
     <thead>
       <tr className={s.th}>
         <th>
@@ -161,34 +109,27 @@ function Tbody() {
     <tbody className={s.tbody}>
 
       {users.map((user) => { 
-       return <Fragment>
-       { editContactId === user.id ? (
-       <EditableRow 
-        editFormData={editFormData}
-        handleEditFormChange={handleEditFormChange} 
-        handleCancelClick={handleCancelClick}
-        />
-    )  : (
-     <ReadOnlyRow user={user} handleEditClick={handleEditClick}
-     handleDeleteClick={handleDeleteClick}
-     />
-    )}
-    </Fragment>
-          })
-       }
-    </tbody>
+       return editContactId === user.id 
+       ? <EditableRow 
+       key={user.id}
+       editFormData={user}
+       handleEditFormSubmit={handleEditFormSubmit}
+       handleCancelClick={handleCancelClick}
+      />
+     : <ReadOnlyRow 
+    key={user.id}
+    user={user}
+    handleEditClick={handleEditClick}
+    handleDeleteClick={handleDeleteClick}
+    />
+  })
+ 
+  }
+  <tr><td colSpan={8}><h2 className={s.h2}>Add a New Contact</h2></td></tr>
+  <EditableRow editFormData={{ name:'' , email: '', address: { city: '' }, website: '', phone: '', company: { name: '' } }} />
+  <button type='submit' onClick={_=>handleAddFormSubmit({name, email, address:{city:addressCity}, website, phone, company:{name:companyName}})}>Add</button>
+ </tbody>
 </table>
-</form>
-<h2 className={s.h2}>Add a New Contact</h2>
-<form className={s.form} onSubmit={handleAddFormSubmit}>
-<input className={s.input} type="text" name='name' required='required' placeholder='Enter a name...' onChange={handleAddFormChange}/>
-  <input className={s.input} type="text" name='email' required='required' placeholder='Enter an email...' onChange={handleAddFormChange}/>
-  <input className={s.input} type="text" name='address.city' required='required' placeholder='Enter an address...' onChange={handleAddFormChange} />
-  <input className={s.input} type="text" name='phone' required='required' placeholder='Enter a phone number...' onChange={handleAddFormChange}/>
-  <input className={s.input} type="text" name='website' required='required' placeholder='Enter an website...' onChange={handleAddFormChange}/>
-  <input className={s.input} type="text" name='company.name' required='required' placeholder='Enter an company-name...' onChange={handleAddFormChange}/>
-  <button className={s.add} type='submit'>Add</button>
-</form>
 </div>
   </>
 }
