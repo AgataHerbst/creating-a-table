@@ -4,8 +4,8 @@ import Tbody from '../components/Tbody';
 function App() {
  return <>
     <Header />
-   <Tbody />
-    </>
+    <Tbody />
+</>
 }
 
 export default App;

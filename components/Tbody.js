@@ -7,27 +7,27 @@ import EditableRow from '../components/EditableRow';
 function Tbody() {
   const [users, setUsers] = useState([]);
   const [editContactId, setEditContactId] = useState(null); //id наших users, если изменить null на id, то редактирование высвитится у того user, id которого мы задали
-  //const [addFormData, setAddFormData] = useState('')
+
 
   function handleAddFormSubmit(event) {  //функция ДОБАВЛЕНИЯ контакта
-  event.preventDefault();
- 
-   
-  const newContact = { //добавление нового контакта
-   id: nanoid(),
-   name: addFormData.name,
-   email: addFormData.email,
-   address: addFormData.address.city,
-   phone: addFormData.phone,
-   website: addFormData.website,
-   companyName: addFormData.company.name
- };
+    event.preventDefault();
 
-const newContacts = [...users, newContact];
-setUsers(newContacts);
-  }
 
-  function handleEditFormSubmit(obj) { //функция РЕДАКТИРОВАНИЯ формы
+    const newContact = { //добавление нового контакта
+      id: nanoid(),
+      name: addFormData.name,
+      email: addFormData.email,
+      address: addFormData.address.city,
+      phone: addFormData.phone,
+      website: addFormData.website,
+      companyName: addFormData.company.name
+    };
+
+    const newContacts = [...users, newContact];
+    setUsers(newContacts);
+  };
+
+  function handleEditFormSubmit(obj) {
 
     const newContacts = [...users];
 
@@ -37,15 +37,13 @@ setUsers(newContacts);
 
     setUsers(newContacts);
     setEditContactId(null);
-  }
+  };
 
-
-
-  function handleEditClick(event, user) { //функция редактировать, кнопка edit
+  function handleEditClick(event, user) {
     setEditContactId(user.id);
   }
 
-  function handleCancelClick() { // функция отмена, кнопка cancel
+  function handleCancelClick() { //кнопка cancel
     setEditContactId(null);
   };
 
@@ -59,15 +57,16 @@ setUsers(newContacts);
     setUsers(newContacts);
   }
 
-  function handleAddFormChange ({addFormData}) {
-    const 
-    [name, setName] = useState(addFormData.name),
-    [email, setEmail] = useState(addFormData.email),
-    [addressCity, setAddressCity] = useState(addFormData.address.city),
-    [website, setWebsite] = useState(addFormData.website),
-    [phone, setPhone] = useState(addFormData.phone),
-    [companyName, setCompanyName] = useState(addFormData.company.name);
-    
+
+  function handleAddFormChange({ addFormData }) {
+    const
+      [name, setName] = useState(addFormData.name),
+      [email, setEmail] = useState(addFormData.email),
+      [addressCity, setAddressCity] = useState(addFormData.address.city),
+      [website, setWebsite] = useState(addFormData.website),
+      [phone, setPhone] = useState(addFormData.phone),
+      [companyName, setCompanyName] = useState(addFormData.company.name);
+
   }
 
   try {
@@ -84,6 +83,7 @@ setUsers(newContacts);
   } catch (err) {
     console.log('Поймали ошибку.')
   }
+
 
   function sortByFn(fn) {
     setUsers([...users].sort((a, b) => fn(a).localeCompare(fn(b))))
@@ -119,19 +119,17 @@ setUsers(newContacts);
                 handleEditFormSubmit={handleEditFormSubmit}
                 handleCancelClick={handleCancelClick}
                 handleAddFormSubmit={handleAddFormSubmit}
-               />
+              />
               : <ReadOnlyRow
                 key={user.id}
                 user={user}
                 handleEditClick={handleEditClick}
                 handleDeleteClick={handleDeleteClick}
               />
-          })
+          })}
 
-          }
           <tr><td colSpan={8}><h2 className={s.h2}>Add a New Contact</h2></td></tr>
           <EditableRow editFormData={{ name: '', email: '', address: { city: '' }, website: '', phone: '', company: { name: '' } }} />
-        
         </tbody>
       </table>
     </div>
