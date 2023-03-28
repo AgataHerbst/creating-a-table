@@ -7,9 +7,22 @@ import EditableRow from '../components/EditableRow';
 function Tbody() {
   const [users, setUsers] = useState([]);
   const [editContactId, setEditContactId] = useState(null); //id наших users, если изменить null на id, то редактирование высвитится у того user, id которого мы задали
+  const [addFormData, setAddFormData] = useState();
+
+  const handleAddFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...addFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setAddFormData(newFormData);
+  };
 
 
-  function handleAddFormSubmit(event) {  //функция ДОБАВЛЕНИЯ контакта
+  const handleAddFormSubmit = (event) => {  //функция ДОБАВЛЕНИЯ контакта
     event.preventDefault();
 
 
@@ -17,15 +30,17 @@ function Tbody() {
       id: nanoid(),
       name: addFormData.name,
       email: addFormData.email,
-      address: addFormData.address.city,
+      address: addFormData.address?.city,
       phone: addFormData.phone,
       website: addFormData.website,
-      companyName: addFormData.company.name
+      companyName: addFormData.company?.name
     };
 
     const newContacts = [...users, newContact];
     setUsers(newContacts);
   };
+
+
 
   function handleEditFormSubmit(obj) {
 
@@ -40,33 +55,23 @@ function Tbody() {
   };
 
   function handleEditClick(event, user) {
+    event.preventDefault();
+
     setEditContactId(user.id);
   }
 
   function handleCancelClick() { //кнопка cancel
-    setEditContactId(null);
+    setEditContactId(null);//Значение null представляет отсутствие какого-либо объектного значения.
   };
 
   function handleDeleteClick(userId) {
     const newContacts = [...users];
 
-    const index = users.findIndex((user) => user.id === userId);
+    const index = users.findIndex((user) => user.id === userId);//Метод findIndex() возвращает индекс первого найденного в массиве элемента, который подходит под условие переданной функции
 
-    newContacts.splice(index, 1);
+    newContacts.splice(index, 1); //удаляет один элемент по индексу
 
     setUsers(newContacts);
-  }
-
-
-  function handleAddFormChange({ addFormData }) {
-    const
-      [name, setName] = useState(addFormData.name),
-      [email, setEmail] = useState(addFormData.email),
-      [addressCity, setAddressCity] = useState(addFormData.address.city),
-      [website, setWebsite] = useState(addFormData.website),
-      [phone, setPhone] = useState(addFormData.phone),
-      [companyName, setCompanyName] = useState(addFormData.company.name);
-
   }
 
   try {
@@ -92,21 +97,22 @@ function Tbody() {
   return <>
     <div className={s.container}>
       <table className={s.table}>
-        <thead>
-          <tr className={s.th}>
+        <thead className={s.thead}>
+          <tr>
             <th>
-              <button onClick={() => sortByFn(obj => obj.name)}>
+              <button className={s.button} onClick={() => sortByFn(obj => obj.name)}>
                 Name</button></th>
-            <th><button onClick={() => sortByFn(obj => obj.email)}>
+            <th><button className={s.button}  onClick={() => sortByFn(obj => obj.email)}>
               Email</button></th>
-            <th><button onClick={() => sortByFn(obj => obj.address.city)}>
+            <th><button className={s.button}  onClick={() => sortByFn(obj => obj.address.city)}>
               Address.city</button></th>
-            <th><button onClick={() => sortByFn(obj => obj.phone)}>
+            <th><button className={s.button}  onClick={() => sortByFn(obj => obj.phone)}>
               Phone</button></th>
-            <th><button onClick={() => sortByFn(obj => obj.website)}>
+            <th><button className={s.button}  onClick={() => sortByFn(obj => obj.website)}>
               Website</button></th>
-            <th><button onClick={() => sortByFn(obj => obj.company.name)}>
+            <th><button className={s.button}  onClick={() => sortByFn(obj => obj.company.name)}>
               Company.Name</button></th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody className={s.tbody}>
@@ -118,7 +124,7 @@ function Tbody() {
                 editFormData={user}
                 handleEditFormSubmit={handleEditFormSubmit}
                 handleCancelClick={handleCancelClick}
-                handleAddFormSubmit={handleAddFormSubmit}
+
               />
               : <ReadOnlyRow
                 key={user.id}
@@ -128,10 +134,57 @@ function Tbody() {
               />
           })}
 
-          <tr><td colSpan={8}><h2 className={s.h2}>Add a New Contact</h2></td></tr>
-          <EditableRow editFormData={{ name: '', email: '', address: { city: '' }, website: '', phone: '', company: { name: '' } }} />
+          <tr><td colSpan={8}><h2 className={s.h2}>Add a New Contact</h2>
+          </td></tr>
+
         </tbody>
       </table>
+      <form onSubmit={handleAddFormSubmit}>
+        <input className={s.input}
+          type="text"
+          name="name"
+          required="required"
+          placeholder="Enter a name..."
+          onChange={handleAddFormChange}
+        />
+        <input className={s.input}
+          type="text"
+          name="email"
+          required="required"
+          placeholder="Enter a email..."
+          onChange={handleAddFormChange}
+        />
+        <input className={s.input}
+          type="text"
+          name="addressCity"
+          required="required"
+          placeholder="Enter an address..."
+          onChange={handleAddFormChange}
+        />
+        <input className={s.input}
+          type="text"
+          name="phone"
+          required="required"
+          placeholder="Enter a phone number..."
+          onChange={handleAddFormChange}
+        />
+        <input className={s.input}
+          type="text"
+          name="website"
+          required="required"
+          placeholder="Enter an website..."
+          onChange={handleAddFormChange}
+        />
+        <input className={s.input}
+          type="text"
+          name=" companyName:"
+          required="required"
+          placeholder="Enter an companyName..."
+          onChange={handleAddFormChange}
+        />
+        <button className={s.add} type="submit">Add</button>
+      </form>
+
     </div>
   </>
 
