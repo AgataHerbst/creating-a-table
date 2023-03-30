@@ -1,0 +1,12 @@
+.button{
+    background-color: rgb(250, 203, 117);
+  border: 2px solid #51c71a;
+  font-size: 20px;
+  font-weight: bolder;
+  text-align: center;
+ margin: 5px;
+}
+.input{
+    background-color: rgb(235, 253, 205);
+    border: 1px solid #51c71a;
+}
