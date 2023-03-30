@@ -136,7 +136,11 @@ function Tbody() {
 
           <tr><td colSpan={8}><h2 className={s.h2}>Add a New Contact</h2>
           </td></tr>
-
+          <EditableRow 
+            editFormData={{ name: '', email: '', address: { city: '' }, website: '', phone: '', company: { name: '' } }} 
+            handleCancelClick = {null}
+            handleEditFormSubmit = { user => setUsers([...users,user])}
+            />
         </tbody>
       </table>
       <form onSubmit={handleAddFormSubmit}>
