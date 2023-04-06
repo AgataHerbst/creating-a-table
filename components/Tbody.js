@@ -143,52 +143,7 @@ function Tbody() {
             />
         </tbody>
       </table>
-      <form onSubmit={handleAddFormSubmit}>
-        <input className={s.input}
-          type="text"
-          name="name"
-          required="required"
-          placeholder="Enter a name..."
-          onChange={handleAddFormChange}
-        />
-        <input className={s.input}
-          type="text"
-          name="email"
-          required="required"
-          placeholder="Enter a email..."
-          onChange={handleAddFormChange}
-        />
-        <input className={s.input}
-          type="text"
-          name="addressCity"
-          required="required"
-          placeholder="Enter an address..."
-          onChange={handleAddFormChange}
-        />
-        <input className={s.input}
-          type="text"
-          name="phone"
-          required="required"
-          placeholder="Enter a phone number..."
-          onChange={handleAddFormChange}
-        />
-        <input className={s.input}
-          type="text"
-          name="website"
-          required="required"
-          placeholder="Enter an website..."
-          onChange={handleAddFormChange}
-        />
-        <input className={s.input}
-          type="text"
-          name=" companyName:"
-          required="required"
-          placeholder="Enter an companyName..."
-          onChange={handleAddFormChange}
-        />
-        <button className={s.add} type="submit">Add</button>
-      </form>
-
+      
     </div>
   </>
 
