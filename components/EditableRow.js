@@ -2,7 +2,7 @@ import {useState} from 'react';
 import s from './EditableRow.module.css';
 
 
-function EditableRow({editFormData, handleEditFormSubmit, handleCancelClick}) {
+function EditableRow({editFormData, handleEditFormSubmit}) {
   
   const 
   [name, setName] = useState(editFormData.name),
@@ -24,7 +24,7 @@ function EditableRow({editFormData, handleEditFormSubmit, handleCancelClick}) {
    
    <td>
     <button className={s.button} type='submit' onClick={_=>handleEditFormSubmit({name, email, address:{city:addressCity}, website, phone, company:{name:companyName}})}>Save</button>
-    <button className={s.button} type='button' onClick={handleCancelClick}>Cancel</button>
+   
      </td>
     </tr>
     }

@@ -60,9 +60,9 @@ function Tbody() {
     setEditContactId(user.id);
   }
 
-  function handleCancelClick() { //кнопка cancel
+  /*function handleCancelClick() { //кнопка cancel
     setEditContactId(null);//Значение null представляет отсутствие какого-либо объектного значения.
-  };
+  };*/
 
   function handleDeleteClick(userId) {
     const newContacts = [...users];
@@ -123,7 +123,7 @@ function Tbody() {
                 key={user.id}
                 editFormData={user}
                 handleEditFormSubmit={handleEditFormSubmit}
-                handleCancelClick={handleCancelClick}
+                //handleCancelClick={handleCancelClick}
 
               />
               : <ReadOnlyRow
@@ -138,7 +138,7 @@ function Tbody() {
           </td></tr>
           <EditableRow 
             editFormData={{ name: '', email: '', address: { city: '' }, phone: '', website: '', company: { name: '' } }} 
-            handleCancelClick = {null}
+           // handleCancelClick = {null}
             handleEditFormSubmit = { user => setUsers([...users,user])}
             />
         </tbody>
